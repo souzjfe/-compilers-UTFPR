@@ -23,23 +23,26 @@ senao           {   insertOrderedList(&list, createToken("IF",lines))    ;    }
 enquanto        {   insertOrderedList(&list, createToken("WHILE",lines)) ;    }  
 inicio          {   insertOrderedList(&list, createToken("BEGIN",lines)) ;    }  
 fim             {   insertOrderedList(&list, createToken("END",lines))   ;    }  
-[a-zA-Z]+"(".")"       {   insertOrderedList(&list, createToken("FUNC",lines))    ;    }  
+[a-zA-Z]+"(".*")"       {   insertOrderedList(&list, createToken("FUNC",lines))    ;    }  
 [a-zA-Z]+       {   insertOrderedList(&list, createToken("ID",lines))    ;    }  
 [0-9]+          {   insertOrderedList(&list, createToken("NUM",lines))   ;    }
 "("               {   insertOrderedList(&list, createToken("OPPAR",lines))   ;  }
 ")"               {   insertOrderedList(&list, createToken("CLPAR",lines))   ;  }
-";"               {   insertOrderedList(&list, createToken("SCOL",lines))    ;  }  
 "+"               {   insertOrderedList(&list, createToken("MORE",lines))    ;  }  
 "-"               {   insertOrderedList(&list, createToken("MINUS",lines))   ;  }  
 "*"               {   insertOrderedList(&list, createToken("MULT",lines))    ;  }  
 "/"               {   insertOrderedList(&list, createToken("DIV",lines))     ;  }  
+";"               {   insertOrderedList(&list, createToken("SCOL",lines))    ;  }  
+":"               {   insertOrderedList(&list, createToken("IN",lines))    ;  }  
 ":="           {   insertOrderedList(&list, createToken("ATRIB",lines))     ;}  
+","           {   insertOrderedList(&list, createToken("VIRG",lines))     ;}  
 "="           {   insertOrderedList(&list, createToken("EQUAL",lines))     ;}  
 "<"           {   insertOrderedList(&list, createToken("SMALER",lines))     ;}  
 ">"           {   insertOrderedList(&list, createToken("LARGER",lines))     ;}  
 \n              {   lines++; tabs=0; }
 \t              {   tabs++; }
-"{".*"}"        {}
+"{".*"}"        { insertOrderedList(&list, createToken("COMMENT",lines))     ;}  
+" "*        {}
 
 %%
 
