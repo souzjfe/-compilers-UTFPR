@@ -2,7 +2,7 @@
 
 **Curso de Engenharia da Computação Compiladores** 
 
-` `**Prof. Marco Antonio Barbosa  ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.002.png)**
+**Prof. Marco Antonio Barbosa  ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.002.png)**
 
 Trabalho Prático de Implementação 1. **Objetivo:** Construção de um analisador léxico simplificado. Data de entrega/apresentação: a definir 1) A Construção do Analisador Léxico 
 
@@ -10,7 +10,7 @@ A função do analisador léxico é reconhecer as palavras que fazem parte de um
 
 Para esta etapa do trabalho não será necessário o uso da ***tabela de símbolos*** portanto a lista de tokens será formada por uma tupla: 
 
-` `<nome\_do\_token, posição\_do\_token> 
+`<nome\_do\_token, posição\_do\_token>` 
 
 Onde: 
 
@@ -35,13 +35,12 @@ Sugestão: Como ponto de partida estabelecer os tokens para todos os lexemas da 
 |programa  |Prog |
 |Se |if |
 |... |... |
+
 A escolha pela estratégia de implementação fica a cargo do aluno, portanto, poderá ser implementada uma das três alternativas vistas:  
 
-código,  
-
-tabela de transição ou  
-
-geradores automáticos (FLEX, JFLEX, etc.).  
+ - código,  
+ - tabela de transição ou  
+ - geradores automáticos (FLEX, JFLEX, etc.).  
 
 A gramática da linguagem **Small L** 
 
@@ -57,7 +56,7 @@ A gramática da linguagem **Small L**
 
 <condicional> ::= **se** <expressão> **entao** <comandos> |  
 
-`                            `**se** <expressão> **entao** <comandos> **senao** <comandos> 
+                            **se** <expressão> **entao** <comandos> **senao** <comandos> 
 
 <enquanto> ::= **enquanto** <expressão> **faca** <comando> 
 
@@ -89,41 +88,43 @@ Exemplo de um programa na linguagem **Small L Entrada**: test.l
 
 programa test ; ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.005.png)
 
-` `var  
+```
+ var  
 
-`     `v : inteiro ; 
+     v : inteiro ; 
 
-`     `i , max , juro : inteiro ; 
+     i , max , juro : inteiro ; 
 
-`  `inicio 
+  inicio 
 
-`       `enquanto v <> -1 faca 
+       enquanto v <> -1 faca 
 
-`       `inicio 
+       inicio 
 
-`            `leia ( v ) ;        { leia o valor inicial } 
+            leia ( v ) ;        { leia o valor inicial } 
 
-`            `leia ( juro ) ;    { leia a taxa de juros } 
+            leia ( juro ) ;    { leia a taxa de juros } 
 
-`            `leia ( max ) ;   { leia o periodo }  
+            leia ( max ) ;   { leia o periodo }  
 
-`            `valor := 1 ; 
+            valor := 1 ; 
 
-`            `i := 1 ; 
+            i := 1 ; 
 
-`            `enquanto i <= max { (1+juro) elevado a n } faca              inicio 
+            enquanto i <= max { (1+juro) elevado a n } faca              inicio 
 
-`                `valor := valor \* ( 1 + juro ) ; 
+                valor := valor \* ( 1 + juro ) ; 
 
-`                `i := i + 1 ; 
+                i := i + 1 ; 
 
-`            `fim 
+            fim 
 
-`            `escreva ( valor ) ; 
+            escreva ( valor ) ; 
 
-`       `fim 
+       fim 
 
-` `fim** 
+ fim
+```
 
 **saída:** 
 
@@ -133,87 +134,88 @@ programa test ; ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.005.png)
 
 Uma vez defina a estrutura de dados do analisador léxico, é possível descrever seu algoritmo básico. No nível mais alto de abstração, o funcionamento do analisador léxico pode ser definido pelo algoritmo: 
 
-` `Algoritmo Analisador Léxico (Nível 0) ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.006.png)
 
-` `Inicio 
 
-`        `Abre arquivo fonte 
+```
+Inicio 
 
-`        `Enquanto não acabou o arquivo fonte
+        Abre arquivo fonte 
 
-`        `Faça { 
+        Enquanto não acabou o arquivo fonte
 
-`                  `Trata Comentário e Consome espaços
+        Faça { 
 
-`                            `Pega Token 
+                Trata Comentário e Consome espaços
 
-`                            `Coloca Token na Lista de Tokens                   } 
+                            Pega Token 
 
-`         `Fecha arquivo fonte 
+                            Coloca Token na Lista de Tokens                   
+        } 
+        Fecha arquivo fonte 
 
-`  `Fim 
+Fim 
+```
 
 Na  tentativa  de  aproximar  o  algoritmo  acima  de  um  código  executável,  são  feitos refinamentos sucessivos do mesmo. Durante este processo, surgem novos procedimentos, que são refinados na medida do necessário. 
 
-`  `Algoritmo Analisador Léxico (Nível 1) ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.007.png)
+```
 
-`  `Def. token: TipoToken 
-
-`  `Inicio 
-
-`      `Abre arquivo fonte 
-
-`      `Ler(caracter) 
-
-`      `Enquanto não acabou o arquivo fonte 
-
-`      `Faça {Enquanto ((caracter = “{“)ou 
-
-`                                 `(caracter = espaço)) e
-
-`                                  `(não acabou o arquivo fonte)
-
-`                `Faça { Se caracter = “{“ 
-
-`                           `Então {Enquanto (caracter ¹ “}” ) e 
-
-(não acabou o arquivo fonte)                               Faça Ler(caracter) 
-
-`                              `Ler(caracter)} 
-
-`                           `Enquanto (caracter = espaço) e 
-
-(não acabou o arquivo fonte)
-
-`                           `Faça Ler(caracter) 
-
-`                         `} 
-
-`                `se caracter <> fim de arquivo
-
-`                `então {Pega Token 
-
-`                           `Insere Lista} 
-
-`                 `} 
-
-`      `Fecha arquivo fonte 
-
-Fim. 
-
-Algoritmo Pega Token ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.008.png)
+Def. token: TipoToken 
 
 Inicio 
 
-`    `Se caracter é digito 
+    Abre arquivo fonte 
 
-`          `Então Trata Digito 
+    Ler(caracter) 
 
-`          `Senão Se caracter é letra
+    Enquanto não acabou o arquivo fonte 
 
-`                      `Então Trata Identificador e Palavra Reservada
+    Faça {Enquanto ((caracter = “{“)ou 
 
-`                      `Senão Se caracter = “:”
+                                (caracter = espaço)) e
+
+                                (não acabou o arquivo fonte)
+
+            Faça { Se caracter = “{“ 
+
+                        Então {Enquanto (caracter ¹ “}” ) e 
+
+(não acabou o arquivo fonte)                               Faça Ler(caracter) 
+
+                            Ler(caracter)} 
+
+                        Enquanto (caracter = espaço) e 
+
+(não acabou o arquivo fonte)
+
+                        Faça Ler(caracter) 
+
+                        } 
+
+            se caracter <> fim de arquivo
+
+            então {Pega Token 
+
+                        Insere Lista} 
+
+                } 
+
+    Fecha arquivo fonte 
+
+Fim. 
+```
+```
+Inicio 
+
+Se caracter é digito 
+
+        Então Trata Digito 
+
+        Senão Se caracter é letra
+
+                    Então Trata Identificador e Palavra Reservada
+
+                    Senão Se caracter = “:”
 
 Então Trata Atribuição 
 
@@ -235,43 +237,42 @@ Def num : Palavra
 
 Inicio 
 
-`     `num ¬ caracter 
+    num ¬ caracter 
 
-`     `Ler(caracter) 
+    Ler(caracter) 
 
-`     `Enquanto caracter é dígito
+    Enquanto caracter é dígito
 
-`         `Faça { 
+        Faça { 
 
-`                     `num ¬ num + caracter                      Ler(caracter) 
+                    num ¬ num + caracter                      Ler(caracter) 
 
-`                   `} 
+                } 
 
-`     `token.símbolo ¬ snúmero 
+    token.símbolo ¬ snúmero 
 
-`     `token.lexema ¬ num 
+    token.lexema ¬ num 
 
 Fim. 
-
-Algoritmo Trata Identificador e Palavra Reservada Def id: Palavra ![](Aspose.Words.ed422c72-de2b-4b7f-a571-5d2aa64734a6.010.png)
-
+```
+```
 Inicio 
 
-`      `id ¬ caracter 
+    id ¬ caracter 
 
-`      `Ler(caracter) 
+    Ler(caracter) 
 
-`      `Enquanto caracter é letra ou dígito ou “\_”
+    Enquanto caracter é letra ou dígito ou “\_”
 
-`           `Faça { id ¬ id + caracter 
+        Faça { id ¬ id + caracter 
 
-`                      `Ler(caracter) 
+                    Ler(caracter) 
 
-`                     `} 
+                    } 
 
-`      `token.lexema ¬ id 
+    token.lexema ¬ id 
 
-`      `caso 
+    caso 
 
 id = “programa” : token.símbolo ¬ sprograma 
 
@@ -316,7 +317,7 @@ id = “nao” : token.símbolo ¬ snao
 senão : token.símbolo ¬ sidentificador 
 
 Fim. 
-
+```
 **Referências** 
 
 **Compiladores. Princípios, Técnicas e Ferramentas**. Alfred V. Aho, Ravi Sethi and Jeffrey D. Ullman. 
