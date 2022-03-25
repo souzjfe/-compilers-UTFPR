@@ -5,6 +5,7 @@
 #include "Token.h"
 #include "OrderedList.h"
 #include <stdio.h>
+#include "Utils.h"
 
 OrderedList list;
 
@@ -24,7 +25,7 @@ enquanto                        {   insertOrderedList(&list, createToken("WHILE"
 inicio                          {   insertOrderedList(&list, createToken("BEGIN",lines)); }  
 fim                             {   insertOrderedList(&list, createToken("END",lines)); }  
 [[:digit:]]                     {   insertOrderedList(&list, createToken("NUM",lines)); }
-([[:alnum:]]+[_]*[[:alnum:]]?)+ {   insertOrderedList(&list, createToken("ID",lines)); }  
+([_]*[[:alnum:]]+[_]*)+         {   insertOrderedList(&list, createToken("ID",lines));}  
 [a-zA-Z]+[(].*[)]               {   insertOrderedList(&list, createToken("FUNC",lines)); }  
 [(]                             {   insertOrderedList(&list, createToken("OPPAR",lines)); }
 [)]                             {   insertOrderedList(&list, createToken("CLPAR",lines)); }
@@ -34,17 +35,16 @@ fim                             {   insertOrderedList(&list, createToken("END",l
 [/]                             {   insertOrderedList(&list, createToken("DIV",lines)); }  
 ;                               {   insertOrderedList(&list, createToken("SCOL",lines)); }  
 :                               {   insertOrderedList(&list, createToken("DOUBPO",lines));  }  
-:=           {   insertOrderedList(&list, createToken("ATRIB",lines)); }  
-[,]           {   insertOrderedList(&list, createToken("VIRG",lines)); }  
-[=]           {   insertOrderedList(&list, createToken("EQUAL",lines)); }  
-[<]           {   insertOrderedList(&list, createToken("SMALER",lines)); }  
-[>]           {   insertOrderedList(&list, createToken("LARGER",lines)); }  
-\n              {   lines++; tabs=0; }
-\t              {   tabs++; }
-"{"[^}\n]*"}"        { insertOrderedList(&list, createToken("COMMENT",lines))     ;}  
-.                       {chars++;}
-
-
+:=                              {   insertOrderedList(&list, createToken("ATRIB",lines)); }  
+[,]                             {   insertOrderedList(&list, createToken("VIRG",lines)); }  
+[=]                             {   insertOrderedList(&list, createToken("EQUAL",lines)); }  
+[<]                             {   insertOrderedList(&list, createToken("SMALER",lines)); }  
+[>]                             {   insertOrderedList(&list, createToken("LARGER",lines)); }  
+\n                              {   lines++; tabs=0; }
+\t                              {   tabs++; }
+[[:space:]]                     {}
+[{][^}]*[}]                     { lines += contCaracter(yytext,'\n'); }  
+.                               {chars++;}
 %%
 
 int main(int argc, char **argv)
