@@ -24,8 +24,12 @@ senao                           {   insertOrderedList(&list, createToken("IF",li
 enquanto                        {   insertOrderedList(&list, createToken("WHILE",lines)); }  
 inicio                          {   insertOrderedList(&list, createToken("BEGIN",lines)); }  
 fim                             {   insertOrderedList(&list, createToken("END",lines)); }  
-[[:digit:]]                     {   insertOrderedList(&list, createToken("NUM",lines)); }
-([_]*[[:alnum:]]+[_]*)+         {   insertOrderedList(&list, createToken("ID",lines));}  
+:=                              {   insertOrderedList(&list, createToken("ATRIB",lines)); }  
+;                               {   insertOrderedList(&list, createToken("SCOL",lines)); }  
+:                               {   insertOrderedList(&list, createToken("DOUBPO",lines));  }  
+[0-9]+                           {   insertOrderedList(&list, createToken("NUM",lines)); }
+([0-9][[:alpha:]_]+[0-9]*)+     {   insertOrderedList(&list, createToken("ERRO",lines)); }
+[[:alpha:]_][[:alnum:]_]*       {  insertOrderedList(&list, createToken("ID",lines));}  
 [a-zA-Z]+[(].*[)]               {   insertOrderedList(&list, createToken("FUNC",lines)); }  
 [(]                             {   insertOrderedList(&list, createToken("OPPAR",lines)); }
 [)]                             {   insertOrderedList(&list, createToken("CLPAR",lines)); }
@@ -33,9 +37,6 @@ fim                             {   insertOrderedList(&list, createToken("END",l
 [-]                             {   insertOrderedList(&list, createToken("MINUS",lines)); }  
 [*]                             {   insertOrderedList(&list, createToken("MULT",lines)); }  
 [/]                             {   insertOrderedList(&list, createToken("DIV",lines)); }  
-;                               {   insertOrderedList(&list, createToken("SCOL",lines)); }  
-:                               {   insertOrderedList(&list, createToken("DOUBPO",lines));  }  
-:=                              {   insertOrderedList(&list, createToken("ATRIB",lines)); }  
 [,]                             {   insertOrderedList(&list, createToken("VIRG",lines)); }  
 [=]                             {   insertOrderedList(&list, createToken("EQUAL",lines)); }  
 [<]                             {   insertOrderedList(&list, createToken("SMALER",lines)); }  
@@ -44,7 +45,7 @@ fim                             {   insertOrderedList(&list, createToken("END",l
 \t                              {   tabs++; }
 [[:space:]]                     {}
 [{][^}]*[}]                     { lines += contCaracter(yytext,'\n'); }  
-.                               {chars++;}
+.                               {chars++; printf("aqui tem um qualquer\t%d\t %s\t",lines,yytext);}
 %%
 
 int main(int argc, char **argv)

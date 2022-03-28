@@ -1,28 +1,12 @@
-programa test ;
-var
- v : inteiro ;
- i , max , juro : inteiro ;
-inicio
- enquanto v <> -1 faca
- inicio
- leia( v ) ; { leia o valor inicial }
- leia( juro ) ; { leia a taxa de juros }
- leia( max ) ; { leia o periodo
- ddwdw
-  }
-
-
-
-
-  
- valor := 1 ;
- i := 1 ;
- enquanto i <= max { (1+juro) elevado a n } faca
- inicio
- valor := valor * ( 1 + juro ) ;
- i := i + 1 ;
- fim
- escreva ( valor ) ;
- var tal; 
- fim
-fim
+2as_s2ss8ss8s
+as_da
+asdad
+jggjg
+_gygj
+huh7_i
+hjgh89_98
+i
+asdasd_
+333
+j
+asd
