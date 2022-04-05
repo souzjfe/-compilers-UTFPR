@@ -14,6 +14,11 @@ int tabs = 0;
 int chars = 0;
 %}
 
+id [[:alpha:]_][[:alnum:]_]*
+natural [0-9]+
+integer "-"?{natural}
+real    {integer}"."{natural}
+
 %%
 programa    	                {   initOrderedList(&list);   insertOrderedList(&list, createToken("PROG",lines)); }  
 var                             {   insertOrderedList(&list, createToken("VAR",lines)); }  
@@ -22,15 +27,17 @@ falso                           {   insertOrderedList(&list, createToken("FALSE"
 se                              {   insertOrderedList(&list, createToken("IF",lines)); }  
 senao                           {   insertOrderedList(&list, createToken("IF",lines)); }  
 enquanto                        {   insertOrderedList(&list, createToken("WHILE",lines)); }  
-inicio                          {   insertOrderedList(&list, createToken("BEGIN",lines)); }  
+inicio                          {   insertOrderedList(&list, createToken("BEGIN",lines)); }
+faca                            {   insertOrderedList(&list, createToken("DO",lines)); }
 fim                             {   insertOrderedList(&list, createToken("END",lines)); }  
 :=                              {   insertOrderedList(&list, createToken("ATRIB",lines)); }  
 ;                               {   insertOrderedList(&list, createToken("SCOL",lines)); }  
-:                               {   insertOrderedList(&list, createToken("DOUBPO",lines));  }  
-[0-9]+                           {   insertOrderedList(&list, createToken("NUM",lines)); }
+:                               {   insertOrderedList(&list, createToken("DOUBPO",lines)); }  
+{real}                          {   insertOrderedList(&list, createToken("NUMR",lines)); }
+{natural}                       {   insertOrderedList(&list, createToken("NUMN",lines)); }
+{integer}                       {   insertOrderedList(&list, createToken("NUMI",lines)); }
 ([0-9][[:alpha:]_]+[0-9]*)+     {   insertOrderedList(&list, createToken("ERRO",lines)); }
-[[:alpha:]_][[:alnum:]_]*       {  insertOrderedList(&list, createToken("ID",lines));}  
-[a-zA-Z]+[(].*[)]               {   insertOrderedList(&list, createToken("FUNC",lines)); }  
+{id}                            {   insertOrderedList(&list, createToken("ID",lines)); }  
 [(]                             {   insertOrderedList(&list, createToken("OPPAR",lines)); }
 [)]                             {   insertOrderedList(&list, createToken("CLPAR",lines)); }
 [+]                             {   insertOrderedList(&list, createToken("MORE",lines)); }  
