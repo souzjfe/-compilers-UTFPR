@@ -2,10 +2,10 @@
 %option noyywrap
 
 %{
-#include "Token.h"
-#include "OrderedList.h"
 #include <stdio.h>
-#include "Utils.h"
+#include "Utils/Utils.h"
+#include "OrderedList/OrderedList.h"
+#include "Token/Token.h"
 
 OrderedList list;
 
@@ -62,7 +62,7 @@ int main(int argc, char **argv)
         fileName = "test.jfe";
     else
         fileName = argv[0]; */
-    FILE *file = fopen("test.jfe", "r");
+    FILE *file = fopen("../tests/test.jfe", "r");
 
 
     if(!file){

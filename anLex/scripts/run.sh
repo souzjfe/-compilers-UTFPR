@@ -1,3 +1,5 @@
-flex wc.l
-gcc lex.yy.c Token.c OrderedList.c Utils.c -o output -lfl
+cd lib
+flex index.l
+gcc lex.yy.c Token/Token.c OrderedList/OrderedList.c Utils/Utils.c -o output -lfl
 ./output
+cd ..
