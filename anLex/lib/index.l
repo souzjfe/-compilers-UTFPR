@@ -2,6 +2,8 @@
 %option noyywrap
 
 %{
+#define RED      "\x1b[31m" //cores em ANSI utilizadas 
+#define GRAY     "\e[0;37m"
 #include <stdio.h>
 #include "Utils/Utils.h"
 #include "OrderedList/OrderedList.h"
@@ -15,7 +17,6 @@ int chars = 0;
 int errors = 0;
 %}
 
-erroIDEN ([0-9][[:alpha:]_]+[0-9]*)+
 id [[:alpha:]_][[:alnum:]_]*
 natural [0-9]+
 integer "-"?{natural}
@@ -43,36 +44,40 @@ not                             {   insertOrderedList(&list, createToken("NOT",l
 :=                              {   insertOrderedList(&list, createToken("ATRIB",lines)); }  
 ;                               {   insertOrderedList(&list, createToken("SCOL",lines)); }  
 :                               {   insertOrderedList(&list, createToken("DOUBPO",lines)); }  
+div                             {   insertOrderedList(&list, createToken("DIV",lines)); }  
+","                             {   insertOrderedList(&list, createToken("COL",lines)); }  
+"("                             {   insertOrderedList(&list, createToken("OPPAR",lines)); }
+")"                             {   insertOrderedList(&list, createToken("CLPAR",lines)); }
+"+"                             {   insertOrderedList(&list, createToken("PLUS",lines)); }  
+"-"                             {   insertOrderedList(&list, createToken("MINUS",lines)); }  
+"*"                             {   insertOrderedList(&list, createToken("MULT",lines)); }  
+"."                             {   insertOrderedList(&list, createToken("POINT",lines)); }  
+"="                             {   insertOrderedList(&list, createToken("EQUAL",lines)); }  
+"<>"                            {   insertOrderedList(&list, createToken("DIF",lines)); }  
+"=>"                            {   insertOrderedList(&list, createToken("LARGEREQ",lines)); }  
+"=<"                            {   insertOrderedList(&list, createToken("SMALEREQ",lines)); }  
+"<"                             {   insertOrderedList(&list, createToken("SMALER",lines)); }  
+">"                             {   insertOrderedList(&list, createToken("LARGER",lines)); }  
 {real}                          {   insertOrderedList(&list, createToken("NUMR",lines)); }
 {natural}                       {   insertOrderedList(&list, createToken("NUMN",lines)); }
 {integer}                       {   insertOrderedList(&list, createToken("NUMI",lines)); }
-{erroIDEN}                      {   insertOrderedList(&list, createToken("ERRO",lines)); errors++;}
-{id}                            {   insertOrderedList(&list, createToken("ID",lines)); }  
-[(]                             {   insertOrderedList(&list, createToken("OPPAR",lines)); }
-[)]                             {   insertOrderedList(&list, createToken("CLPAR",lines)); }
-[+]                             {   insertOrderedList(&list, createToken("MORE",lines)); }  
-[-]                             {   insertOrderedList(&list, createToken("MINUS",lines)); }  
-[*]                             {   insertOrderedList(&list, createToken("MULT",lines)); }  
-div                             {   insertOrderedList(&list, createToken("DIV",lines)); }  
-[,]                             {   insertOrderedList(&list, createToken("COL",lines)); }  
-[=]                             {   insertOrderedList(&list, createToken("EQUAL",lines)); }  
-[<]                             {   insertOrderedList(&list, createToken("SMALER",lines)); }  
-[>]                             {   insertOrderedList(&list, createToken("LARGER",lines)); }  
+{id}                            {   insertOrderedList(&list, createToken("ID",lines)); } 
+{id}[^(\n\t[:space:])]+         {   insertOrderedList(&list, createToken("IDERRO",lines)); errors++;} 
 \n                              {   lines++; tabs=0; }
 \t                              {   tabs++; }
 [[:space:]]                     {}
 [{][^}]*[}]                     { lines += contCaracter(yytext,'\n'); }  
-.                               {}
+.                               {  printf("%s aqq",yytext); insertOrderedList(&list, createToken("ERRO",lines)); errors++;}
 %%
 
 int main(int argc, char **argv)
 {
     /* char *fileName;
     if( argc == 0)
-        fileName = "test.jfe";
+        fileName = "teste1.s";
     else
         fileName = argv[0]; */
-    FILE *file = fopen("../inputs/test.jfe", "r");
+    FILE *file = fopen("../inputs/teste1.s", "r");
 
 
     if(!file){
@@ -86,7 +91,12 @@ int main(int argc, char **argv)
     
     printOrderedList(&list);
     if(errors)
-        printf("\n%d ERROS ENCONTRADOS\n",errors);
+        printf(
+            "\n%d ERRO%sENCONTRADO%s\n",
+            errors,
+            errors==1? " ": "S ",
+            errors==1? " ": "S "
+        );
     fclose(file);
     destroyOrderedList(&list);
     
