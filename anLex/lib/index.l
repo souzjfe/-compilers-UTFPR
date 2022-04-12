@@ -55,8 +55,8 @@ div                             {   insertOrderedListAndPrintToken(&list, create
 "."                             {   insertOrderedListAndPrintToken(&list, createToken("POINT",lines)); }  
 "="                             {   insertOrderedListAndPrintToken(&list, createToken("EQUAL",lines)); }  
 "<>"                            {   insertOrderedListAndPrintToken(&list, createToken("DIF",lines)); }  
-"=>"                            {   insertOrderedListAndPrintToken(&list, createToken("LARGEREQ",lines)); }  
-"=<"                            {   insertOrderedListAndPrintToken(&list, createToken("SMALEREQ",lines)); }  
+">="                            {   insertOrderedListAndPrintToken(&list, createToken("LARGEREQ",lines)); }  
+"<="                            {   insertOrderedListAndPrintToken(&list, createToken("SMALEREQ",lines)); }  
 "<"                             {   insertOrderedListAndPrintToken(&list, createToken("SMALER",lines)); }  
 ">"                             {   insertOrderedListAndPrintToken(&list, createToken("LARGER",lines)); }  
 {real}                          {   insertOrderedListAndPrintToken(&list, createToken("NUMR",lines)); }
@@ -68,18 +68,13 @@ div                             {   insertOrderedListAndPrintToken(&list, create
 \t                              {   printf("\t"); tabs++; }
 [[:space:]]                     {   printf(" "); }
 [{][^}]*[}]                     {   lines += contCaracter(yytext,'\n'); }  
-.                               {  printf(RED "%s aqq",yytext); insertOrderedList(&list, createToken("ERRO",lines)); errors++;}
+.                               {   printf(RED "%s aqq",yytext); insertOrderedList(&list, createToken("ERRO",lines)); errors++;}
 %%
 
 int main(int argc, char **argv)
 {
-    /* char *fileName;
-    if( argc == 0)
-        fileName = "teste1.s";
-    else
-        fileName = argv[0]; */
-    FILE *file = fopen("../inputs/teste1.s", "r");
-
+    char *fileName = "./inputs/teste.s";
+    FILE *file = fopen(fileName, "r");
 
     if(!file){
         printf("Arquivo não encontrado");

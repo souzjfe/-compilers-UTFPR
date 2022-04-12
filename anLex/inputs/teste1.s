@@ -3,7 +3,7 @@ var
 v : inteiro ;
 i , max , juro : inteiro ;
 inicio
-enquanto v <> -1 faca
+enquanto ss_v <> -1 faca
     inicio
         leia ( v ) ;    { leia o valor inicial }
         leia ( juro ) ; { leia a taxa de juros }
