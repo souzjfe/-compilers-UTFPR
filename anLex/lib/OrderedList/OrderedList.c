@@ -30,7 +30,6 @@ int sizeOfOrderedList(OrderedList *list){
 //---------------------------------------------------------------------------------
 
 void destroyOrderedList(OrderedList *list) {
-  printf("@Destroying list!\n");
   PtrNodeList toRemove;
   while(list->first!= NULL) {
     toRemove = list->first;;
@@ -47,7 +46,7 @@ void printOrderedList(OrderedList *list) {
   printf("\n");
   for(ptr = list->first; ptr != NULL; ptr = ptr->next) {
     printToken(ptr->x);
-    if(ptr->x.pos != ptr->next->x.pos)
+    if(ptr->next == NULL || ptr->x.pos != ptr->next->x.pos)
       printf("\n");
   }
   printf("\n");

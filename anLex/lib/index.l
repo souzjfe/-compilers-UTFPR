@@ -72,7 +72,7 @@ int main(int argc, char **argv)
         fileName = "test.jfe";
     else
         fileName = argv[0]; */
-    FILE *file = fopen("../tests/test.jfe", "r");
+    FILE *file = fopen("../inputs/test.jfe", "r");
 
 
     if(!file){
@@ -88,5 +88,6 @@ int main(int argc, char **argv)
     if(errors)
         printf("\n%d ERROS ENCONTRADOS\n",errors);
     fclose(file);
+    destroyOrderedList(&list);
     
 }
