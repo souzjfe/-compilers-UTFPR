@@ -84,7 +84,8 @@ bool searchFasterOrderedList(OrderedList *list, Token x) {
 //---------------------------------------------------------------------------------
 
 void insertOrderedList(OrderedList *list, Token x) {
-
+  if (list == NULL)
+    initOrderedList(list);
   PtrNodeList new = (PtrNodeList)malloc(sizeof(NodeList));
   new->x = x;
   

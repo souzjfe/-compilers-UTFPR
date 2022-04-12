@@ -23,7 +23,7 @@ integer "-"?{natural}
 real    {integer}"."{natural}
 
 %%
-programa    	                {   initOrderedList(&list);   insertOrderedList(&list, createToken("PROG",lines)); }  
+programa    	                {   insertOrderedList(&list, createToken("PROG",lines)); }  
 var                             {   insertOrderedList(&list, createToken("VAR",lines)); }  
 verdadeiro                      {   insertOrderedList(&list, createToken("TRUE",lines)); }  
 falso                           {   insertOrderedList(&list, createToken("FALSE",lines)); }  
