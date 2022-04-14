@@ -73,7 +73,7 @@ div                             {   insertOrderedListAndPrintToken(&list, create
 
 int main(int argc, char **argv)
 {
-    char *fileName = "./inputs/teste.s";
+    char *fileName = argv[1];
     FILE *file = fopen(fileName, "r");
 
     if(!file){
