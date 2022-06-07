@@ -3,12 +3,11 @@
 %option header-file="lex.yy.h"
 %top{
 /* This goes at the top of the generated file */
-#include "../build/parser.tab.h"
+  #include "../build/parser.tab.h"
 }
 
 %{
 #include <stdio.h>
-#include "../build/parser.tab.h"
 #include <stdlib.h>
 extern int yylval;
 
@@ -61,9 +60,9 @@ div                             {   return DIV        ;}
 "<="                            {   return SMALEREQ   ;}
 "<"                             {   return SMALER     ;}
 ">"                             {   return LARGER     ;}
-{real}                          {   return NUMR       ;}
-{natural}                       {   return NUMN       ;}
-{integer}                       {   return NUMI       ;}
+{real}                          {   return NUM        ;}
+{natural}                       {   return NUM        ;}
+{integer}                       {   return NUM        ;}
 {id}                            {   return ID         ;}
 {id}[^(\n\t[:space:])]+         {   return IDERRO     ;}
 \n                              {  }

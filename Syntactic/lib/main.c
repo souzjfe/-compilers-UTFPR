@@ -3,6 +3,7 @@
 
 extern int yyparse (void);
 
+
 void yyerror(char const *message){
     printf("\nError: %s", message);
 }
@@ -21,6 +22,4 @@ int main(int argc, char const *argv[]) {
     return result_code;
     
 }
-int somar(int a, int b){
-    return a + b;
-}
+

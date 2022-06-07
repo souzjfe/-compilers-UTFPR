@@ -90,14 +90,11 @@ extern int yydebug;
     SMALEREQ = 291,                /* SMALEREQ  */
     SMALER = 292,                  /* SMALER  */
     LARGERR = 293,                 /* LARGERR  */
-    NUMR = 294,                    /* NUMR  */
-    NUMN = 295,                    /* NUMN  */
-    NUMI = 296,                    /* NUMI  */
-    ID = 297,                      /* ID  */
-    IDERRO = 298,                  /* IDERRO  */
-    MULTI = 299,                   /* MULTI  */
-    LARGER = 300,                  /* LARGER  */
-    ELSEIF = 301                   /* ELSEIF  */
+    NUM = 294,                     /* NUM  */
+    ID = 295,                      /* ID  */
+    IDERRO = 296,                  /* IDERRO  */
+    MULTI = 297,                   /* MULTI  */
+    LARGER = 298                   /* LARGER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

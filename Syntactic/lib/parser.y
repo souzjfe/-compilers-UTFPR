@@ -4,11 +4,9 @@
 #include <stdio.h>
 extern int yyerror(char *message);
 extern int yylex(void);
-
 %}
 
-%token  
-  PROG      
+%token PROG      
   VAR       
   TRUE      
   FALSE     
@@ -44,9 +42,7 @@ extern int yylex(void);
   SMALEREQ  
   SMALER    
   LARGERR    
-  NUMR      
-  NUMN      
-  NUMI      
+  NUM     
   ID        
   IDERRO    
 
@@ -71,8 +67,6 @@ extern int yylex(void);
 %left   
   EQUAL
   DIF
-  ELSE
-  ELSEIF
 
 %right  
   ATRIB
@@ -81,7 +75,7 @@ extern int yylex(void);
 
 programa :      PROG identificador SCOL bloco {printf("Programa executado com sucesso!\n");}
 
-bloco :         VAR declaracao START comandos END
+bloco :         VAR declaracao START comandos END {printf("Bloco executado com sucesso!\n");}
 
 declaracao :    nome_var DOUBPO tipo SCOL | 
                 nome_var  DOUBPO tipo SCOL declaracao
@@ -96,21 +90,22 @@ tipo :          INT |
 comandos :      comando | 
                 comando SCOL comandos
 
-comando :       condicional |
-                comando_combinado
+comando :       comando_combinado  |
+                condicional 
                 
+
 comando_combinado :     IF expressao THEN comando_combinado ELSE comando_combinado |
                         atribuicao |  
                         enquanto | 
                         leitura | 
                         escrita 
 
-atribuicao :    identificador ATRIB expressao
+atribuicao :    identificador ATRIB expressao 
 
-condicional :   IF expressao THEN comandos |
-                IF expressao THEN comandos ELSE comandos
+condicional :   IF expressao THEN comando |
+                IF expressao THEN comando_combinado ELSE condicional 
 
-enquanto :      WHILE expressao DO comandos
+enquanto :      WHILE expressao DO comando_combinado 
 
 leitura :       SCAN OPPAR  identificador CLPAR
 
@@ -125,25 +120,30 @@ op_relacional : DIF |
                 LARGER | 
                 SMALEREQ | 
                 LARGEREQ
+
 simples :       termo operador termo | 
                 termo
+                
 operador :      PLUS | 
                 MINUS | 
                 OR
+
 termo :         fator | 
                 fator op fator
+
 op :            MULTI | 
                 DIV | 
                 AND
+
 fator :         identificador | 
                 numero | 
                 OPPAR expressao CLPAR | 
                 TRUE | 
                 FALSE | 
                 NOT fator
+
 identificador : ID
-numero :        NUMR |
-                NUMN |
-                NUMI
+
+numero :        NUM 
 
 %%

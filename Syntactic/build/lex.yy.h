@@ -3,7 +3,7 @@
 #define yyIN_HEADER 1
 
 /* This goes at the top of the generated file */
-#include "../build/parser.tab.h"
+  #include "../build/parser.tab.h"
 
 #line 9 "lex.yy.h"
 
@@ -470,7 +470,7 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 75 "../lib/scanner.l"
+#line 74 "../lib/scanner.l"
 
 
 #line 477 "lex.yy.h"
