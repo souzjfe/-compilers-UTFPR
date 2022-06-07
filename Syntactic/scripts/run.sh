@@ -9,6 +9,6 @@ gcc -c -o scanner.o lex.yy.c
 gcc -c -o parser.o parser.tab.c
 gcc -c -o main.o ../lib/main.c
 gcc -o main parser.o scanner.o main.o
-./main ../inputs/exemple.txt
+./main $1
 
 cd ..

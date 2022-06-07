@@ -92,9 +92,7 @@ extern int yydebug;
     LARGERR = 293,                 /* LARGERR  */
     NUM = 294,                     /* NUM  */
     ID = 295,                      /* ID  */
-    IDERRO = 296,                  /* IDERRO  */
-    MULTI = 297,                   /* MULTI  */
-    LARGER = 298                   /* LARGER  */
+    LARGER = 296                   /* LARGER  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif

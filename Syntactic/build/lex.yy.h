@@ -470,7 +470,7 @@ extern int yylex (void);
 #undef yyTABLES_NAME
 #endif
 
-#line 74 "../lib/scanner.l"
+#line 73 "../lib/scanner.l"
 
 
 #line 477 "lex.yy.h"

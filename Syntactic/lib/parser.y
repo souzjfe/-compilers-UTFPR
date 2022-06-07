@@ -4,6 +4,8 @@
 #include <stdio.h>
 extern int yyerror(char *message);
 extern int yylex(void);
+int linhas = 1;
+
 %}
 
 %token PROG      
@@ -44,14 +46,14 @@ extern int yylex(void);
   LARGERR    
   NUM     
   ID        
-  IDERRO    
+      
 
 
 %right  
   NOT
 
 %left   
-  MULTI
+  MULT
   DIV
 
 %left   
@@ -73,77 +75,77 @@ extern int yylex(void);
 
 %%
 
-programa :      PROG identificador SCOL bloco {printf("Programa executado com sucesso!\n");}
+programa :      PROG identificador SCOL bloco {printf("<programa> ::= programa <identificador> ; <bloco>\n");}
 
-bloco :         VAR declaracao START comandos END {printf("Bloco executado com sucesso!\n");}
+bloco :         VAR declaracao START comandos END {printf("<bloco> ::= var <declaracao> inicio <comandos> fim\n");}
 
-declaracao :    nome_var DOUBPO tipo SCOL | 
-                nome_var  DOUBPO tipo SCOL declaracao
+declaracao :    nome_var DOUBPO tipo SCOL {printf("<declaracao> ::= <nome_var> : <tipo> ;\n");}
+                | nome_var  DOUBPO tipo SCOL declaracao {printf("<declaracao> ::= <nome_var> : <tipo> ; <declaracao>\n");}
 
-nome_var :      identificador | 
-                identificador COL nome_var
+nome_var :      identificador {printf("<nome_var> ::= <identificador>\n");}
+                | identificador COL nome_var {printf("<nome_var> ::= <identificador> , <nome_var>\n");}
 
-tipo :          INT | 
-                FLOAT | 
-                BOOL
+tipo :          INT {printf("<tipo> ::= int\n");}
+                | FLOAT {printf("<tipo> ::= float\n");}
+                | BOOL {printf("<tipo> ::= bool\n");}
 
-comandos :      comando | 
-                comando SCOL comandos
+comandos :      comando {printf("<comandos> ::= <comando>\n");} 
+                | comando SCOL comandos {printf("<comandos> ::= <comando> ; <comandos>\n");}
 
-comando :       comando_combinado  |
-                condicional 
+comando :       comando_combinado {printf("<comando> ::= <comando_combinado>\n");}
+                | condicional {printf("<comando> ::= <condicional>\n");}
                 
 
-comando_combinado :     IF expressao THEN comando_combinado ELSE comando_combinado |
-                        atribuicao |  
-                        enquanto | 
-                        leitura | 
-                        escrita 
+comando_combinado :     IF expressao THEN comando_combinado ELSE comando_combinado {printf("<comando_combinado> ::= if <expressao> then <comando_combinado> else <comando_combinado>\n");}
+                        | atribuicao {printf("<comando_combinado> ::= <atribuicao>\n");} 
+                        | enquanto {printf("<comando_combinado> ::= <enquanto>\n");}
+                        | leitura {printf("<comando_combinado> ::= <leitura>\n");}
+                        | escrita {printf("<comando_combinado> ::= <escrita>\n");}
 
-atribuicao :    identificador ATRIB expressao 
+atribuicao :    identificador ATRIB expressao {printf("<atribuicao> ::= <identificador> = <expressao>\n");}
 
-condicional :   IF expressao THEN comando |
-                IF expressao THEN comando_combinado ELSE condicional 
+condicional :   IF expressao THEN comando {printf("<condicional> ::= se <expressao> entao <comando>\n");}
+                | IF expressao THEN comando_combinado ELSE condicional {printf("<condicional> ::= se <expressao> entao <comando_combinado> senao <condicional>\n");}
 
-enquanto :      WHILE expressao DO comando_combinado 
+enquanto :      WHILE expressao DO comando_combinado {printf("<enquanto> ::= enquanto <expressao> faca <comando_combinado>\n");}
 
-leitura :       SCAN OPPAR  identificador CLPAR
+leitura :       SCAN OPPAR  identificador CLPAR {printf("<leitura> ::= leia ( <identificador> )\n");}
 
-escrita :       WHILE OPPAR  identificador CLPAR
+escrita :       PUT OPPAR  identificador CLPAR {printf("<escrita> ::= escreva ( <identificador> )\n");}
 
-expressao :     simples | 
-                simples op_relacional simples
+expressao :     simples {printf("<expressao> ::= <simples>\n");}
+                | simples op_relacional simples {printf("<expressao> ::= <simples> <op_relacional> <simples>\n");}
 
-op_relacional : DIF | 
-                EQUAL | 
-                SMALER | 
-                LARGER | 
-                SMALEREQ | 
-                LARGEREQ
+op_relacional : DIF {printf("<op_relacional> ::= <>\n");}
+                | EQUAL {printf("<op_relacional> ::= =\n");}
+                | SMALER {printf("<op_relacional> ::= <\n");}
+                | LARGER {printf("<op_relacional> ::= >\n");}
+                | SMALEREQ {printf("<op_relacional> ::= <=\n");}
+                | LARGEREQ {printf("<op_relacional> ::= >=\n");}
 
-simples :       termo operador termo | 
-                termo
+simples :       termo operador termo {printf("<simples> ::= <termo> <operador> <termo>\n");}
+                | termo {printf("<simples> ::= <termo>\n");}
                 
-operador :      PLUS | 
-                MINUS | 
-                OR
+operador :      PLUS {printf("<operador> ::= +\n");}
+                | MINUS {printf("<operador> ::= -\n");}
+                | OR {printf("<operador> ::= ou\n");}
 
-termo :         fator | 
-                fator op fator
+termo :         fator {printf("<termo> ::= <fator>\n");}
+                | fator op fator {printf("<termo> ::= <fator> <op> <fator>\n");}
 
-op :            MULTI | 
-                DIV | 
-                AND
+op :            MULT {printf("<op> ::= *\n");}
+                | DIV {printf("<op> ::= div\n");}
+                | AND {printf("<op> ::= e\n");}
 
-fator :         identificador | 
-                numero | 
-                OPPAR expressao CLPAR | 
-                TRUE | 
-                FALSE | 
-                NOT fator
+fator :         identificador {printf("<fator> ::= <identificador>\n");} 
+                | numero {printf("<fator> ::= <numero>\n");}
+                | OPPAR expressao CLPAR {printf("<fator> ::= ( <expressao> )\n");}
+                | TRUE {printf("<fator> ::= true\n");}
+                | FALSE {printf("<fator> ::= false\n");}
+                | NOT fator {printf("<fator> ::= not <fator>\n");}
 
-identificador : ID
+identificador : ID {printf("<identificador> ::= <ID>\n");}
 
-numero :        NUM 
+numero :        NUM {printf("<numero> ::= <NUM>\n");}
 
 %%

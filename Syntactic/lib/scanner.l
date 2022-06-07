@@ -31,7 +31,6 @@ e                               {   return AND        ;}
 ou                              {   return OR         ;}
 se                              {   return IF         ;}
 senao                           {   return ELSE       ;}
-
 entao                           {   return THEN       ;}
 enquanto                        {   return WHILE      ;}
 inicio                          {   return START      ;}
@@ -41,8 +40,8 @@ leia                            {   return SCAN       ;}
 escreva                         {   return PUT        ;}
 inteiro                         {   return INT        ;}
 real                            {   return FLOAT      ;}
-booleano                        {   return BOOL       ;}
-not                             {   return NOT        ;}
+boleano                         {   return BOOL       ;}
+nao                             {   return NOT        ;}
 :=                              {   return ATRIB      ;}
 ;                               {   return SCOL       ;}
 :                               {   return DOUBPO     ;}
@@ -64,7 +63,7 @@ div                             {   return DIV        ;}
 {natural}                       {   return NUM        ;}
 {integer}                       {   return NUM        ;}
 {id}                            {   return ID         ;}
-{id}[^(\n\t[:space:])]+         {   return IDERRO     ;}
+{id}[^(\n\t[:space:])]+         {  printf("\nError: lexical error"); }
 \n                              {  }
 \t                              {  }
 [[:space:]]                     {  }
