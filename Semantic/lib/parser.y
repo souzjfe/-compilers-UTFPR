@@ -152,7 +152,7 @@ termo :         fator {$<value>$ = $<value>1;}
                 | fator op fator {
                   if(strcmp($<lex_value>2, "*") == 0){
                         $<value>$ = $<value>1 * $<value>3;
-                  }else if(strcmp($<lex_value>2 , "DIV") == 0){
+                  }else if(strcmp($<lex_value>2 , "div") == 0){
                         $<value>$ = $<value>1 / $<value>3;
                   }
                 }

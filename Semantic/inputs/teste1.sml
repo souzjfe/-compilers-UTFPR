@@ -3,7 +3,7 @@ var
  x , y : inteiro ;
  inicio
  x := 5 ;
- y := 15 ;
- x := x + x * y ;
+ y := 2 ;
+ x := ( x + x ) div y ;
 escreva ( x )
 fim

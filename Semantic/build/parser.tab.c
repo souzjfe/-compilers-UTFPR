@@ -1441,7 +1441,7 @@ yyreduce:
                                  {
                   if(strcmp((yyvsp[-1].lex_value), "*") == 0){
                         (yyval.value) = (yyvsp[-2].value) * (yyvsp[0].value);
-                  }else if(strcmp((yyvsp[-1].lex_value) , "DIV") == 0){
+                  }else if(strcmp((yyvsp[-1].lex_value) , "div") == 0){
                         (yyval.value) = (yyvsp[-2].value) / (yyvsp[0].value);
                   }
                 }
