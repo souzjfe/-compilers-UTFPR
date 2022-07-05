@@ -2,10 +2,10 @@
 %option noyywrap
 
 %{
-#define RED      "\x1b[31m" 
-#define GRAY     "\e[0;37m"
-#define GREEN     "\e[0;32m"
 #include <stdio.h>
+#include "parser.tab.h"
+#include <stdlib.h>
+extern int yylval;
 
 
 OrderedList list;
@@ -24,9 +24,10 @@ var                             {   return VAR        ;}
 verdadeiro                      {   return TRUE       ;}
 falso                           {   return FALSE      ;}
 e                               {   return AND        ;}
-ou                              {   return OU         ;}
+ou                              {   return OR         ;}
 se                              {   return IF         ;}
-senao                           {   return IF         ;}
+senao                           {   return ELSE       ;}
+entao                           {   return THEN       ;}
 enquanto                        {   return WHILE      ;}
 inicio                          {   return BEGIN      ;}
 fim                             {   return END        ;}
@@ -77,7 +78,6 @@ int main(int argc, char **argv)
     }
 
     yyin = file;
-
     yylex();
     
     fclose(file);
